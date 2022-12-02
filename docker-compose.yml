@@ -8,5 +8,8 @@ services:
       - 8000:8000
     volumes:
       - ./app:/app
+  
+  db:
+    image: postgres:14-alpine
     env_file:
-      - ./.env/.env.app
+      - ./.env/.env.db
