@@ -51,6 +51,8 @@ LOCAL_APPS = [
 
 THIRD_APPS = [
     'compressor',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -157,3 +159,28 @@ STATIC_ROOT = '/vol/web/static'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CKEDITOR CONFIGURATION
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'ckeditor-images/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'RemoveFormat'],
+            ['NumberedList', 'BulletedList', '-',
+             'Outdent', 'Indent', '-',
+             'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
+             'Blockquote'],
+            ['Link', 'Unlink',],
+            ['Image', 'Table', 'SpecialChar', 'IFrame'],
+            ['Source'],
+            ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'],
+            ['Styles', 'Format'],
+            ['Form', 'CreateDiv', 'TextField', 'Textarea', 'Select', 'Button', 'Placeholder', 'ImageButton', 'HiddenField','Checkbox', 'Radio']
+        ],
+    },
+}
