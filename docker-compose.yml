@@ -12,7 +12,6 @@ services:
       - 8000:8000
     volumes:
       - ./app:/app
-      - ./data/web:/vol/web
     env_file:
       - ./.env/.env.app
     depends_on:
