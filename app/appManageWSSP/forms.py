@@ -567,9 +567,9 @@ class AuthorForm(forms.ModelForm):
             },
         }
 
-class PublicationForm(forms.ModelForm):
+class OutstandingForm(forms.ModelForm):
     class Meta:
-        model = Publication
+        model = Outstanding
 
         fields = [
             "title_es",
@@ -581,8 +581,8 @@ class PublicationForm(forms.ModelForm):
         ]
 
         labels = {
-            "title_es": "Publication Title (Spanish)",
-            "title_en": "Publication Title (English)",
+            "title_es": "Outstanding Title (Spanish)",
+            "title_en": "Outstanding Title (English)",
             "show_title":"Display Title",
             "display_order": "Display Order",
             "section": "Section",
@@ -600,12 +600,12 @@ class PublicationForm(forms.ModelForm):
 
         error_messages = {
             "title_es": {
-                "unique": _("A publication with this name already exists."),
-                "required": _("Publication name is required."),
+                "unique": _("A Outstanding with this name already exists."),
+                "required": _("Outstanding name is required."),
             },
             "title_en": {
-                "unique": _("A publication with this name already exists."),
-                "required": _("Publication name is required."),
+                "unique": _("A Outstanding with this name already exists."),
+                "required": _("Outstanding name is required."),
             },
             "elementType": {
                 "required": _("Element type is required."),
@@ -615,12 +615,12 @@ class PublicationForm(forms.ModelForm):
             },
         }
 
-class PublicationArticleForm(forms.ModelForm):
+class OutstandingArticleForm(forms.ModelForm):
     description_es = forms.CharField(widget=CKEditorUploadingWidget())
     description_en = forms.CharField(widget=CKEditorUploadingWidget())
 
     class Meta:
-        model = PublicationArticle
+        model = OutstandingArticle
 
         fields = [
             "title_es",
@@ -631,20 +631,20 @@ class PublicationArticleForm(forms.ModelForm):
             "media",
             "description_es",
             "description_en",
-            "publication",
+            "outstanding",
 
         ]
 
         labels = {
-            "title_es": "Publication Article Title (Spanish)",
-            "title_en": "Publication Article Title (English)",
+            "title_es": "Outstanding Article Title (Spanish)",
+            "title_en": "Outstanding Article Title (English)",
             "article_origin": "Article Origin",
             "source_web": "Web Source",
             "author": "Author",
             "media": "Image or Video for Article",
             "description_es": "Description (Spanish)",
             "description_en": "Description (English)",
-            "publicacion": "Publicacion",
+            "outstanding": "Outstanding",
         }
 
         widgets = {
@@ -656,7 +656,7 @@ class PublicationArticleForm(forms.ModelForm):
             "media": forms.Select(attrs={"class":"form-input-control"}),
             "description_es": forms.TextInput(attrs={"class":"form-input-control"}),
             "description_en": forms.TextInput(attrs={"class":"form-input-control"}),
-            "publication": forms.Select(attrs={"class":"form-input-control"}),
+            "outstanding": forms.Select(attrs={"class":"form-input-control"}),
         }
 
         error_messages = {
@@ -680,8 +680,8 @@ class PublicationArticleForm(forms.ModelForm):
             "media": {
                 "required": _("A media resource is required."),
             },
-            "publication": {
-                "required": _("Publication is required."),
+            "outstanding": {
+                "required": _("Outstanding is required."),
             },
         }
 
