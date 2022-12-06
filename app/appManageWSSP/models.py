@@ -677,12 +677,12 @@ class SliderElement(models.Model):
             "user": self.user
         }
 
-class Publication(Element):
+class Outstanding(Element):
 
     class Meta:
-        verbose_name = "Publication"
-        verbose_name_plural = "Publications"
-        db_table = "Publication"
+        verbose_name = "Outstanding"
+        verbose_name_plural = "Outstandings"
+        db_table = "Outstanding"
         ordering = ["id"]
 
     def __str__(self):
@@ -698,25 +698,25 @@ class Publication(Element):
             "section": self.section.id,
         }
 
-class PublicationArticle(models.Model):
+class OutstandingArticle(models.Model):
     title_es = models.CharField(max_length=100, blank=False, unique=True)
     title_en = models.CharField(max_length=100, blank=False, unique=True)
     article_origins = [("web","Web"), ("local","Local")]
     article_origin = models.CharField(max_length=10, choices=article_origins, default="web", blank=False)
     source_web = models.URLField(max_length=250, null=False, blank=False)
-    author = models.ForeignKey("Author", null=False, blank=False, on_delete=models.CASCADE, related_name="author_publicationArticles")
-    media = models.ForeignKey("MediaResource", null=False, blank=False, on_delete=models.CASCADE, related_name="mediaResource_publicationArticles")
+    author = models.ForeignKey("Author", null=False, blank=False, on_delete=models.CASCADE, related_name="author_outstandingArticles")
+    media = models.ForeignKey("MediaResource", null=False, blank=False, on_delete=models.CASCADE, related_name="mediaResource_outstandingArticles")
     description_es = models.TextField(blank=True)
     description_en = models.TextField(blank=True)
-    publication = models.ForeignKey("Publication", null=False, blank=False, on_delete=models.CASCADE, related_name="publication_publicationArticles")
+    outstanding = models.ForeignKey("Outstanding", null=False, blank=False, on_delete=models.CASCADE, related_name="outstanding_outstandingArticles")
     created = models.DateTimeField(auto_now_add=True, auto_now=False, null=False, blank=False)
     modified = models.DateTimeField(auto_now=True, auto_now_add=False, null=False, blank=False)
-    user = models.ForeignKey("User", null=False, blank=False, on_delete=models.CASCADE, related_name="user_publicationArticles")
+    user = models.ForeignKey("User", null=False, blank=False, on_delete=models.CASCADE, related_name="user_outstandingArticles")
 
     class Meta:
-        verbose_name = "PublicationArticle"
-        verbose_name_plural = "PublicationArticles"
-        db_table = "PublicationArticle"
+        verbose_name = "OutstandingArticle"
+        verbose_name_plural = "OutstandingArticles"
+        db_table = "OutstandingArticle"
         ordering = ["id"]
 
     def __str__(self):
@@ -733,7 +733,7 @@ class PublicationArticle(models.Model):
             "media": self.media.id,
             "description_es": self.description_es,
             "description_en": self.description_en,
-            "publication": self.publication.id,
+            "outstanding": self.outstanding.id,
             "created": self.created.strftime("%b %d %Y, %I:%M %p"),
             "modified": self.modified.strftime("%b %d %Y, %I:%M %p"),
             "user": self.user
