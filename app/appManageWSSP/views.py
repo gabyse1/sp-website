@@ -578,12 +578,12 @@ def add_slider(request, id_section):
     else:
         return HttpResponseRedirect(reverse("login"))
 
-def add_publication(request, id_section):
+def add_outstanding(request, id_section):
     if request.user.is_authenticated:
         searchinput, paginator, page_obj, section = retrieve_elements(request, id_section)
         # Create record
         if request.method == "POST":
-            form = PublicationForm(request.POST)
+            form = OutstandingForm(request.POST)
 
             if form.is_valid():
                 try:
@@ -593,41 +593,41 @@ def add_publication(request, id_section):
                     element.user = request.user
                     element.save()
                     # load created record
-                    return HttpResponseRedirect(reverse("adm_publication", kwargs={"adm":"edit","id":element.id}))
+                    return HttpResponseRedirect(reverse("adm_outstanding", kwargs={"adm":"edit","id":element.id}))
                 except:
                     form.errors["__all__"] = form.error_class(["There was a problem creating the record."])
                     raise
         else:
-            elementType = ElementType.objects.get(htmlName="publication")
-            form = PublicationForm(initial={"section":section,"elementType":elementType})
+            elementType = ElementType.objects.get(htmlName="outstanding")
+            form = OutstandingForm(initial={"section":section,"elementType":elementType})
 
-        return render(request, "appManageWSSP/publications.html", {
+        return render(request, "appManageWSSP/outstandings.html", {
             "form": form,
             "section": section,
             "page_obj": page_obj,
             "paginator": paginator,
             "searchinput": searchinput,
-            "modelname": "publication",
+            "modelname": "outstanding",
         })
     else:
         return HttpResponseRedirect(reverse("login"))
 
-def adm_publication(request, adm, id):
+def adm_outstanding(request, adm, id):
     if request.user.is_authenticated:
         # validate existence of the url
         if not adm == "edit" and not adm == "delete":
             raise Http404
         # Get section
         try:
-            element = Publication.objects.get(pk=int(id))
-            publicationArticles = PublicationArticle.objects.all().order_by("created")
+            element = Outstanding.objects.get(pk=int(id))
+            outstandingArticles = OutstandingArticle.objects.all().order_by("created")
         except:
             raise Http404
         
         searchinput, paginator, page_obj, section = retrieve_elements(request, element.section.id)
         
         if request.method == "POST":
-            form = PublicationForm(request.POST, instance=element)
+            form = OutstandingForm(request.POST, instance=element)
 
             if form.is_valid():
                 try:
@@ -636,12 +636,12 @@ def adm_publication(request, adm, id):
                     element.user = request.user
                     element.save()
                     # load created record
-                    return HttpResponseRedirect(reverse("adm_publication", kwargs={"adm":"edit","id":element.id}))
+                    return HttpResponseRedirect(reverse("adm_outstanding", kwargs={"adm":"edit","id":element.id}))
                 except:
                     form.errors["__all__"] = form.error_class(["There was a problem creating the record."])
                     raise
         else:
-            form = PublicationForm(instance=element)
+            form = OutstandingForm(instance=element)
 
             if adm == "delete":
                 try:
@@ -655,96 +655,96 @@ def adm_publication(request, adm, id):
 
         elementTypeList = ElementType.objects.all()
 
-        return render(request, "appManageWSSP/publications.html", {
+        return render(request, "appManageWSSP/outstandings.html", {
             "form": form,
             "element": element,
-            "publicationArticles": publicationArticles,
+            "outstandingArticles": outstandingArticles,
             "page_obj": page_obj,
             "paginator": paginator,
             "edit_record": True,
             "elementTypeList": elementTypeList,
             "searchinput": searchinput,
-            "modelname": "publication",
+            "modelname": "outstanding",
         })
     else:
         return HttpResponseRedirect(reverse("login"))
 
-def retrieve_publicationArticles(request, id_publication):
+def retrieve_outstandingArticles(request, id_outstanding):
     try:
-        publication = Publication.objects.get(pk=int(id_publication))
+        outstanding = Outstanding.objects.get(pk=int(id_outstanding))
     except:
         raise Http404
 
-    recordlist = publication.publication_publicationArticles.all().order_by("-created")
+    recordlist = outstanding.outstanding_outstandingArticles.all().order_by("-created")
 
     searchinput = request.GET.get("search")
     if searchinput:
-        recordlist = search_records("publicationArticle", searchinput, publication)
+        recordlist = search_records("outstandingArticle", searchinput, outstanding)
 
     recordlist = number_records(recordlist)
 
     paginator, page_obj = paginate_records(request, recordlist)
 
-    return searchinput, paginator, page_obj, publication
+    return searchinput, paginator, page_obj, outstanding
 
-def publicationArticles(request, id_publication):
+def outstandingArticles(request, id_outstanding):
     if request.user.is_authenticated:
-        searchinput, paginator, page_obj, publication = retrieve_publicationArticle(request, id_publication)
+        searchinput, paginator, page_obj, outstanding = retrieve_outstandingArticles(request, id_outstanding)
 
         formImage = ImagenForm()
 
-        return render(request, "appManageWSSP/publicationArticles.html", {
-            "publication": publication,
+        return render(request, "appManageWSSP/outstandingArticles.html", {
+            "outstanding": outstanding,
             "formImage": formImage,
             "page_obj": page_obj,
             "paginator": paginator,
             "searchinput": searchinput,
-            "modelname": "publicationArticle",
+            "modelname": "outstandingArticle",
         })
     else:
         return HttpResponseRedirect(reverse("login"))
 
-def add_publicationArticle(request, id_publication):
+def add_outstandingArticle(request, id_outstanding):
     if request.user.is_authenticated:
-        searchinput, paginator, page_obj, publication = retrieve_publicationArticles(request, id_publication)
+        searchinput, paginator, page_obj, outstanding = retrieve_outstandingArticles(request, id_outstanding)
         
         if request.method == "POST":
-            form = PublicationArticleForm(request.POST)
+            form = OutstandingArticleForm(request.POST)
 
             if form.is_valid():
                 try:
                     # create section record in database
                     element = form.save(commit=False)
-                    element.publication = publication
+                    element.outstanding = outstanding
                     element.user = request.user
                     element.save()
                     # load created record
-                    return HttpResponseRedirect(reverse("adm_publicationArticle", kwargs={"adm":"edit","id":element.id}))
+                    return HttpResponseRedirect(reverse("adm_outstandingArticle", kwargs={"adm":"edit","id":element.id}))
                 except:
                     form.errors["__all__"] = form.error_class(["There was a problem creating the record."])
                     raise
         else:
-            form = PublicationArticleForm(initial={"publication":publication})
+            form = OutstandingArticleForm(initial={"outstanding":outstanding})
 
         formImage = ImagenForm()
         formVideo = VideoForm()
         formAuthor = AuthorForm()
 
-        return render(request, "appManageWSSP/publicationArticles.html", {
+        return render(request, "appManageWSSP/outstandingArticles.html", {
             "form": form,
             "formImage": formImage,
             "formVideo": formVideo,
             "formAuthor": formAuthor,
-            "publication": publication,
+            "outstanding": outstanding,
             "page_obj": page_obj,
             "paginator": paginator,
             "searchinput": searchinput,
-            "modelname": "publicationArticle",
+            "modelname": "outstandingArticle",
         })
     else:
         return HttpResponseRedirect(reverse("login"))
 
-def adm_publicationArticle(request, adm, id):
+def adm_outstandingArticle(request, adm, id):
     if request.user.is_authenticated:
         # validate existence of the url
         if not adm == "edit" and not adm == "delete":
@@ -752,7 +752,7 @@ def adm_publicationArticle(request, adm, id):
         # Get section
         media = None
         try:
-            element = PublicationArticle.objects.get(pk=int(id))
+            element = OutstandingArticle.objects.get(pk=int(id))
             # get media to delete if it requires
             if element.media.mediaType == "video":
                 media = Video.objects.get(pk=int(element.media.id))
@@ -761,11 +761,11 @@ def adm_publicationArticle(request, adm, id):
         except:
             raise Http404
         
-        searchinput, paginator, page_obj, publication = retrieve_publicationArticles(request, element.publication.id)
+        searchinput, paginator, page_obj, outstanding = retrieve_outstandingArticles(request, element.outstanding.id)
 
         # Create record
         if request.method == "POST":
-            form = PublicationArticleForm(request.POST, instance=element)
+            form = OutstandingArticleForm(request.POST, instance=element)
 
             if form.is_valid():
                 try:
@@ -774,12 +774,12 @@ def adm_publicationArticle(request, adm, id):
                     element.user = request.user
                     element.save()
                     # load created record
-                    return HttpResponseRedirect(reverse("adm_publicationArticle", kwargs={"adm":"edit","id":element.id}))
+                    return HttpResponseRedirect(reverse("adm_outstandingArticle", kwargs={"adm":"edit","id":element.id}))
                 except:
                     form.errors["__all__"] = form.error_class(["There was a problem creating the record."])
                     raise
         else:
-            form = PublicationArticleForm(instance=element)
+            form = OutstandingArticleForm(instance=element)
 
             if adm == "delete":
                 try:
@@ -793,7 +793,7 @@ def adm_publicationArticle(request, adm, id):
                         if media and not is_image_related_to_model(media.id):
                             media.delete()
                     # load all records
-                    return HttpResponseRedirect(reverse("publicationArticles", kwargs={"id_publication":element.publication.id}))
+                    return HttpResponseRedirect(reverse("outstandingArticles", kwargs={"id_outstanding":element.outstanding.id}))
                 except:
                     form.errors["__all__"] = form.error_class(["There was a problem deleting the record."])
                     raise
@@ -802,7 +802,7 @@ def adm_publicationArticle(request, adm, id):
         formVideo = VideoForm()
         formAuthor = AuthorForm()
 
-        return render(request, "appManageWSSP/publicationArticles.html", {
+        return render(request, "appManageWSSP/outstandingArticles.html", {
             "form": form,
             "formImage": formImage,
             "formVideo": formVideo,
@@ -812,7 +812,7 @@ def adm_publicationArticle(request, adm, id):
             "paginator": paginator,
             "edit_record": True,
             "searchinput": searchinput,
-            "modelname": "publicationArticle",
+            "modelname": "outstandingArticle",
         })
     else:
         return HttpResponseRedirect(reverse("login"))
@@ -1210,8 +1210,8 @@ def adm_author(request, adm, id):
             form = AuthorForm(instance=author)
 
             if adm == "delete":
-                if author.author_publicationArticles.all():
-                    form.errors["__all__"] = form.error_class(["This author cannot be removed because it is related to a publication."])
+                if author.author_outstandingArticles.all():
+                    form.errors["__all__"] = form.error_class(["This author cannot be removed because it is related to a outstanding."])
                 else:
                     # delete record from database
                     author.delete()
@@ -2077,9 +2077,9 @@ def adm_image(request, adm, id):
                 elif image.mediaResource_sliderElements.all():
                     isRelated = True
                     form.errors["__all__"] = form.error_class(["This image cannot be removed because it is related to an article."])
-                elif image.mediaResource_publicationArticles.all():
+                elif image.mediaResource_outstandingArticles.all():
                     isRelated = True
-                    form.errors["__all__"] = form.error_class(["This image cannot be removed because it is related to a publication."])
+                    form.errors["__all__"] = form.error_class(["This image cannot be removed because it is related to a outstanding."])
                 elif image.mediaResource_authors.all():
                     isRelated = True
                     form.errors["__all__"] = form.error_class(["This image cannot be removed because it is related to a author."])
@@ -2239,9 +2239,9 @@ def adm_video(request, adm, id):
                 elif video.mediaResource_graphicArticles.all():
                     isRelated = True
                     form.errors["__all__"] = form.error_class(["This video cannot be removed because it is related to an article."])
-                elif video.mediaResource_publicationArticles.all():
+                elif video.mediaResource_outstandingArticles.all():
                     isRelated = True
-                    form.errors["__all__"] = form.error_class(["This video cannot be removed because it is related to a publication."])
+                    form.errors["__all__"] = form.error_class(["This video cannot be removed because it is related to a outstanding."])
 
                 if isRelated is False:
                     # delete record from database
@@ -2628,7 +2628,7 @@ def is_image_related_to_model(id):
         return True
     elif image.mediaResource_sliderElements.all():
         return True
-    elif image.mediaResource_publicationArticles.all():
+    elif image.mediaResource_outstandingArticles.all():
         return True
     elif image.mediaResource_authors.all():
         return True
@@ -2643,7 +2643,7 @@ def is_video_related_to_model(id):
 
     if video.mediaResource_sections.all():
         return True
-    elif video.mediaResource_publicationArticles.all():
+    elif video.mediaResource_outstandingArticles.all():
         return True
     else:
         return False
