@@ -139,8 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 COMPRESS_PRECOMPILERS = (
-    # ('text/x-scss', 'django_libsass.SassCompiler'),
-    ('text/x-sass', 'sassc {infile} {outfile}'),
+    ('text/x-scss', 'django_libsass.SassCompiler'),
 )
 
 STATICFILES_FINDERS = [
@@ -152,8 +151,8 @@ STATICFILES_FINDERS = [
 STATIC_URL = '/static/static/'
 MEDIA_URL = '/static/media/'
 
-MEDIA_ROOT = '/vol/web/media'
-STATIC_ROOT = '/vol/web/static'
+MEDIA_ROOT = '/vol/web/media/'
+STATIC_ROOT = '/vol/web/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
