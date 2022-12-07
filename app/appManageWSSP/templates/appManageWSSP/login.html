@@ -1,0 +1,41 @@
+{% extends "appManageWSSP/layout.html" %}
+
+{% block loginform %}
+<div class="body-container container">
+    <div class="content-title">
+        <h2 class="modal-title">Login</h2>
+    </div>
+    
+    <div id="content-form" class="content-form content-form-login">
+        {% if message %}
+        <div class="content-alert">
+            <div class="alert-danger" role="alert">
+                {{ message }}
+            </div>
+        </div>
+        {% endif %}
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div class="formtitle-box">
+                <h2>LOGIN</h2>
+            </div>
+            <fieldset>
+                <div class="form-item">
+                    <input autofocus class="form-input-control" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-item">
+                    <input class="form-input-control" type="password" name="password" placeholder="Password">
+                </div>
+            </fieldset>
+            <div class="submit-box">
+                <input class="button-save" type="submit" value="Login">
+            </div>
+        </form>
+    </div>
+    <div class="content-alert container">
+        <div class="alert-info" role="alert">
+            Don't have an account?. Ask the owner for an access account.
+        </div>
+    </div>
+</div>
+{% endblock %}

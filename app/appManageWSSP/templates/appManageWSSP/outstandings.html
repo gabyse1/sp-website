@@ -1,0 +1,237 @@
+{% extends "appManageWSSP/layout.html" %}
+{% load static %}
+
+{% block modeltitle %}
+    {% if edit_record %}
+    Elements of the section "{{ element.section.title_es }}"
+    {% else %}
+    Elements of the section "{{ section.title_es }}"
+    {% endif %}
+{% endblock %}
+
+{% block path %}
+<ul class="ul-nav-path">
+    {% if edit_record %}
+    <li><a class="a-link-menu" href="{% url 'adm_page' 'edit' element.section.page.id %}">{{ element.section.page.title_es}}</a></li>
+    <li class="li-separator"><span>/</span></li>
+    <li><a class="a-link-menu" href="{% url 'adm_section' 'edit' element.section.id %}">{{ element.section.title_es }}</a></li>
+    <li class="li-separator"><span>/</span></li>
+    <li><a class="a-link-menu" href="{% url 'adm_outstanding' 'edit' element.id %}">{{ element.title_es }}</a></li>
+    {% else %}
+    <li><a class="a-link-menu" href="{% url 'adm_page' 'edit' section.page.id %}">{{ section.page.title_es }}</a></li>
+    <li class="li-separator"><span>/</span></li>
+    <li><a class="a-link-menu" href="{% url 'adm_section' 'edit' section.id %}">{{ section.title_es }}</a></li>
+    <li class="li-separator"><span>/</span></li>
+    {% endif %}
+</ul>
+{% endblock %}
+
+{% block form %}
+{% if form %}
+<form id="model-form" method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="formtitle-box">
+        <h2>OUTSTANDING</h2>
+    </div>
+    {{ form.non_field_errors }}
+    <fieldset>
+        <div class="form-item">
+            {{ form.title_es.label_tag }}
+            {{ form.title_es }}
+            {{ form.title_es.errors }}
+        </div>
+        <div class="form-item">
+            {{ form.title_en.label_tag }}
+            {{ form.title_en }}
+            {{ form.title_en.errors }}
+        </div>
+        <div class="form-item">
+            {{ form.display_order.label_tag }}
+            {{ form.display_order }}
+            {{ form.display_order.errors }}
+        </div>
+        <div class="form-item">
+            {{ form.section.label_tag }}
+            {{ form.section }}
+            {{ form.section.errors }}
+        </div>
+        <div class="form-item">
+            {{ form.elementType }}
+            {{ form.elementType.errors }}
+        </div>
+        {% if edit_record %}
+        <div class="form-item">
+            <div class="subelements-list">
+                <div class="list-header">Outstanding articles</div>
+                <div class="list-body">
+                {% if outstandingArticles %}
+                <ul class="ul-nav-list">
+                    {% for outstandingArticle in outstandingArticles %}
+                    <li>
+                        <a class="a-link-menu" href="{% url 'adm_outstandingArticle' 'edit' outstandingArticle.id %}">{{ outstandingArticle.title_es }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    This Outstanding does not have elements yet.
+                {% endif %}
+                </div>
+                <div class="list-footer form-item-link">
+                    <a class="a-link" href="{% url 'add_outstandingArticle' element.id %}">Create new article</a>
+                </div>
+              </div>
+        </div>
+        {% endif %}
+    </fieldset>
+    <div class="submit-box">
+        <input type="submit" name="save" class="button-save" value="Save"/>
+        {% if edit_record %}
+        <a id="delete-{{ modelname }}-{{ element.id }}" class="button-delete delete-record" href="#">Delete</a>
+        <a id="new-record-element" class="button-new" href="#">New Record</a>
+        {% endif %}
+    </div>
+</form>
+{% else %}
+<a id="new-record" class="button-new" href="{% url 'add_outstanding' section.id %}">New Record</a>
+{% endif %}
+{% endblock %}
+
+{% block tabledata %}
+{% if page_obj %}
+<table id="records-table" class="records-table">
+    <thead>
+        <tr>
+            <th scope="col">ORDER</th>
+            <th scope="col">TITLE ES</th>
+            <th scope="col">TYPE</th>
+            <th scope="col">MODIFIED</th>
+            <th scope="col">USER</th>
+            <th scope="col">ACTIONS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in page_obj %}
+        <tr>
+            <th scope="row">{{row.number}}</th>
+            <td>{{row.title_es}}</td>
+            <td>{{row.elementType.name}}</td>
+            <td>{{row.modified}}</td>
+            <td>{{row.user.username}}</td>
+            <td>
+                <div class="button-img-container">
+                    {% if row.elementType.htmlName == "descriptiveArticle" %}
+                    <a id="edit-{{ modelname }}-{{ row.id }}" class="edit-record button-img-edit" href="{% url 'adm_descriptiveArticle' 'edit' row.id %}">
+                    {% endif %}
+                    {% if row.elementType.htmlName == "graphicArticle" %}
+                    <a id="edit-{{ modelname }}-{{ row.id }}" class="edit-record button-img-edit" href="{% url 'adm_graphicArticle' 'edit' row.id %}">
+                    {% endif %}
+                    {% if row.elementType.htmlName == "slider" %}
+                    <a id="edit-{{ modelname }}-{{ row.id }}" class="edit-record button-img-edit" href="{% url 'adm_slider' 'edit' row.id %}">
+                    {% endif %}
+                    {% if row.elementType.htmlName == "outstanding" %}
+                    <a id="edit-{{ modelname }}-{{ row.id }}" class="edit-record button-img-edit" href="{% url 'adm_outstanding' 'edit' row.id %}">
+                    {% endif %}
+                    {% if row.elementType.htmlName == "htmlArticle" %}
+                    <a id="edit-{{ modelname }}-{{ row.id }}" class="edit-record button-img-edit" href="{% url 'adm_htmlArticle' 'edit' row.id %}">
+                    {% endif %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </a>
+                    <a id="delete-{{ modelname }}-{{ row.id }}" class="delete-record button-img-delete" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div id="content-alert" class="content-alert">
+    <div class="alert-info" role="alert">
+        There are not records to display yet.
+    </div>
+</div>
+{% endif %}
+{% endblock%}
+
+{% block pagination %}
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav class="navbar-pagination">
+        <ul class="navbar-ul">
+            <li class="nav-li-item {% if page_obj.has_previous is False %} disabled {% endif %}">
+                <a href=" {% if page_obj.has_previous is True %}?{% if searchinput %}search={{searchinput}}&{%endif%}page={{page_obj.previous_page_number}}{% else %} # {% endif %}" class="nav-a-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            {% for i in paginator.page_range %}
+                {% if i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                <li class="nav-li-item {% if page_obj.number == i %} active {% endif %}">
+                    <a href="?{% if searchinput %}search={{searchinput}}&{%endif%}page={{i}}" class="nav-a-link">{{ i }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+
+            <li class="nav-li-item {% if page_obj.has_next is False %} disabled {% endif %}">
+                <a href=" {% if page_obj.has_next is True %}?{% if searchinput %}search={{searchinput}}&{%endif%}page={{ page_obj.next_page_number }} {% else %} # {% endif %}" class="nav-a-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+{% endblock %}
+
+{% block popup %}
+<div id="popup-background" class="popup-background container">
+    <div id="delete-confirmation" class="popup-box popup-confirmation hide-element">
+        <div class="popup-content">
+            <div class="confirmation-header">
+                <h4>Confirmation</h4>
+            </div>
+            <div class="confirmation-body">
+                <span>Are you sure, you want to delete this register.</span>
+            </div>
+            <div class="confirmation-footer">
+                <a id="delete-btn" class="button-delete" href="#">Delete</a>
+                <a id="cancel-btn" class="button-cancel" href="#">Cancel</a>
+            </div>
+        </div>
+    </div>
+    <div id="elementType-confirmation" class="popup-box popup-confirmation hide-element">
+        <div class="popup-content">
+            <div class="confirmation-header">
+                <h4>Confirmation</h4>
+            </div>
+            <div class="confirmation-body">
+                <div class="form">
+                    <div class="form-item">
+                        <label>Choose a type to create a new one.</label>
+                        <select id="{{ element.section.id }}" class="select-elType form-input-control">
+                            <option value="" selected>Element Types</option>
+                            {% if elementTypeList %}
+                            {% for elementType in elementTypeList %}
+                            <option value="{{ elementType.htmlName }}">{{ elementType.name }}</option>
+                            {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="confirmation-footer">
+                <a id="cancel-btn" class="button-cancel" href="#">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

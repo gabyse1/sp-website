@@ -36,7 +36,7 @@ ALLOWED_HOSTS.extend(
 
 # Application definition
 
-INSTALLED_APPS = [
+BASE_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +44,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+LOCAL_APPS = [
+    'appManageWSSP',
+]
+
+THIRD_APPS = [
+    'compressor',
+    'ckeditor',
+    'ckeditor_uploader',
+]
+
+INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -89,6 +101,8 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'appManageWSSP.User'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -124,9 +138,61 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder'
+]
+
+STATIC_URL = '/static/static/'
+MEDIA_URL = '/static/media/'
+
+MEDIA_ROOT = '/vol/web/media/'
+STATIC_ROOT = '/vol/web/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CKEDITOR CONFIGURATION
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'ckeditor-images/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'RemoveFormat'],
+            ['NumberedList', 'BulletedList', '-',
+             'Outdent', 'Indent', '-',
+             'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
+             'Blockquote'],
+            ['Link', 'Unlink',],
+            ['Image', 'Table', 'SpecialChar', 'IFrame'],
+            ['Source'],
+            ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'],
+            ['Styles', 'Format'],
+            ['Form', 'CreateDiv', 'TextField', 'Textarea', 'Select', 'Button', 'Placeholder', 'ImageButton', 'HiddenField','Checkbox', 'Radio']
+        ],
+    },
+}
+
+# CONFIGURE THE PAGE CAN BE DISPLAYED IN A FRAME OF THE SAME DOMAIN NAME PAGE
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+# EMAIL SETTINGS
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_SERVER = os.environ.get('EMAIL_HOST_SERVER')
+EMAIL_PORT_SERVER = os.environ.get('EMAIL_PORT_SERVER')
+EMAIL_SENDER_USER = os.environ.get('EMAIL_SENDER_USER')
+EMAIL_SENDER_PASSWORD = os.environ.get('EMAIL_SENDER_PASSWORD')
+EMAIL_RECEIVER_USER = os.environ.get('EMAIL_RECEIVER_USER')
+EMAIL_USE_TLS: os.environ.get('EMAIL_USE_TLS')
+EMAIL_USE_SSL: os.environ.get('EMAIL_USE_SSL')
