@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/index/', admin.site.urls),
     path('manage/', include('appManageWSSP.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('', include('appDisplayWSSP.urls')),
 ]
 
 if settings.DEBUG:
