@@ -1,0 +1,75 @@
+/* ----- POSICIONAR ELEMENTOS DE DESCRIPCION ----- */
+
+@media only screen and (min-width: 768px) {
+    #seccion_1 {
+        .seccion_elemento_descripcion_articulo {
+            left: 10%;
+            bottom: 10%;
+        }
+    }
+
+    #seccion_2 {
+        .seccion_elemento_descripcion_articulo {
+            left: 30%;
+            bottom: 40%;
+        }
+    }
+
+    #seccion_3 {
+        .seccion_elemento_descripcion_articulo {
+            left: 10%;
+            bottom: 55%;
+        }
+    }
+
+    #seccion_4 {
+        .li_articuloSlider_descripcion {
+            left: 30%;
+            bottom: 25%;
+        }
+    }
+
+    #seccion_5 {
+        .li_articuloSlider_descripcion {
+            left: 10%;
+            bottom: 40%;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #seccion_1 {
+        .seccion_elemento_descripcion_articulo {
+            left: 5%;
+            bottom: 10%;
+        }
+    }
+
+    #seccion_2 {
+        .seccion_elemento_descripcion_articulo {
+            left: 50%;
+            bottom: 30%;
+        }
+    }
+
+    #seccion_3 {
+        .seccion_elemento_descripcion_articulo {
+            left: 10%;
+            bottom: 40%;
+        }
+    }
+
+    #seccion_4 {
+        .li_articuloSlider_descripcion {
+            left: 50%;
+            bottom: 20%;
+        }
+    }
+
+    #seccion_5 {
+        .li_articuloSlider_descripcion {
+            left: 10%;
+            bottom: 20%;
+        }
+    }
+}

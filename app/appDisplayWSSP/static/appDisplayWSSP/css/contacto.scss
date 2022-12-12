@@ -1,0 +1,16 @@
+/* ----- POSICIONAR ELEMENTOS DE DESCRIPCION ----- */
+
+@media only screen and (min-width: 1024px) {
+
+    #seccion_1 {
+        .seccion_elemento_descripcion_articulo {
+            left: 10%;
+            bottom: 15%;
+        }
+
+        .seccion_elemento_descripcion_htmlarticle {
+            left: 60%;
+            bottom: 10%;
+        }
+    }
+}
