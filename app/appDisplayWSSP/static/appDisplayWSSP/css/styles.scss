@@ -1704,7 +1704,24 @@ body {
                                 width: 100%;
                                 height: 100%;
                                 overflow-y: auto;
+                                scroll-behavior: smooth;
                                 @extend %display-vstart-hcenter;
+
+                                scrollbar-width: thin;
+                                scrollbar-color: transparent;
+                              
+                                &::-webkit-scrollbar {
+                                  width: 0.15rem;
+                                }
+                              
+                                &::-webkit-scrollbar-track {
+                                  background: transparent;
+                                }
+                              
+                                &::-webkit-scrollbar-thumb {
+                                  background-color: transparent;
+                                  border-radius: 10px;
+                                }
 
                                 .row-grid {
                                     width: 100%;
