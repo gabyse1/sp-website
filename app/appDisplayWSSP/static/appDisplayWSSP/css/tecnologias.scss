@@ -1,0 +1,45 @@
+/* ----- POSICIONAR ELEMENTOS DE DESCRIPCION ----- */
+
+@media only screen and (min-width: 768px) {
+    #seccion_1 {
+        .seccion_elemento_descripcion_articulo {
+            left: 5%;
+            bottom: 10%;
+        }
+    }
+
+    #seccion_3 {
+        .li_articuloSlider_descripcion {
+            left: 30%;
+            bottom: 10%;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #seccion_1 {
+        .li_articuloSlider_descripcion {
+            left: 10%;
+            bottom: 35%;
+        }
+    }
+
+    #seccion_2 {
+        .seccion_elemento_descripcion_articulo {
+            left: 15%;
+            bottom: 50%;
+        }
+
+        .seccion_elemento_descripcion_graphic {
+            left: 30%;
+            bottom: 10%;
+        }
+    }
+
+    #seccion_3 {
+        .li_articuloSlider_descripcion {
+            left: 50%;
+            bottom: 15%;
+        }
+    }
+}

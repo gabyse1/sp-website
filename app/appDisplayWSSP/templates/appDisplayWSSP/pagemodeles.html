@@ -1,0 +1,538 @@
+{% extends "appDisplayWSSP/layout_es.html" %}
+{% load static %}
+
+{% block body %}
+
+{% for section in finalPageSections %}
+<section id="seccion_{{ section.order }}">
+    <div class="contenedor_seccion">
+        {% if section.media_type == "none" %}
+        <div class="div_sombra_radial_seccion"></div>
+        {% elif section.media_type == "imageStandard" %}
+        <div class="seccion_fondo_imagen">
+            <img src="{{ section.media_url }}" alt=""/>
+        </div>
+        <div class="div_sombra_radial_seccion"></div>
+        {% elif section.media_type == "imageSvg" %}
+        <div class="seccion_fondo_imagen">
+            <object data="{{ section.media_url }}" type="image/svg+xml"></object>
+        </div>
+        <div class="div_sombra_radial_seccion"></div>
+        {% elif section.media_type == "videoWeb" %}
+        <div class="seccion_fondo_video">
+            <div class="contenedor_video">
+                <iframe width="560" height="315" src="{{ section.media_url }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="true"></iframe>
+            </div>
+            <div class="div_sombra_radial_seccion"></div>
+        </div>
+        {% elif section.media_type == "videoServer" %}
+        <div class="seccion_fondo_video">
+            <div class="contenedor_video">
+                <video id="video_{{section.order}}" data-sectionorder="{{ section.order }}" controls sound loop>
+                    <source src="{{ section.media_url }}" type="video/mp4">  
+                </video>
+            </div>
+            <div class="div_sombra_radial_seccion"></div>
+            <div  id="btn_mostrar_video_controles_{{section.order}}" data-sectionorder="{{section.order}}" class="btn_mostrar_video_controles">
+                CONTROLES
+            </div>
+            <div id="video_controles_{{section.order}}" data-sectionorder="{{section.order}}" class="video_controles">
+                <div class="video_control video_control_play">
+                    <svg class="svg_control_video">
+                        <polyline points="0 0, 16 8, 0 16, 0 0"></polyline>
+                    </svg>
+                </div>
+                <div class="video_control video_control_pause">
+                    <svg class="svg_control_video">
+                        <polyline points="4 0, 4 16"></polyline>
+                        <polyline points="12 0, 12 16"></polyline>
+                    </svg>
+                </div>
+                <div class="video_control_progress">
+                    <div class="progress_box">
+                        <div class="play_progress_bar"></div>
+                    </div>
+                </div>
+                <div class="video_control video_control_sound">
+                    <svg class="svg_control_video">
+                        <polyline points="0 6, 3 6, 9 0, 9 16, 3 9, 0 9, 0 6"></polyline>
+                        <path d="M 13 4 C 13 4 16 8 13 12"/>
+                    </svg>
+                </div>
+                <div class="video_control video_control_muted">
+                    <svg class="svg_control_video">
+                        <polyline points="0 6, 3 6, 9 0, 9 16, 3 9, 0 9, 0 6"></polyline>
+                        <line x1="12" y1="4" x2="16" y2="12"/>
+                        <line x1="12" y1="12" x2="16" y2="4"/>
+                    </svg>
+                </div>
+                 <div class="video_control video_control_wide">
+                    <svg class="svg_control_video">
+                        <path d="M 4 0 L 4 0 12 0 C 12 0 15 1 16 4 L 16 4 16 12 C 16 12 15 15 12 16 L 12 16 4 16 C 4 16 1 15 0 12 L 0 12 0 4 C 0 4 1 1 4 0"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="seccion_cuerpo">
+            {% if section.sectionElements %}
+            <div class="seccion_caja_distribucion">
+                {% if section.numberElements > 1 %}
+                <div class="group-elements">
+                {% endif %}
+                {% for sectionElement in section.sectionElements %}
+                {% if sectionElement.elementType == "descriptiveArticle" %}
+                <div class="seccion_elemento seccion_elemento_descripcion_articulo">
+                    <div class="sec_eld_articulo_texto">
+                        {% if forloop.counter == 1 %}
+                        {% if section.show_title %}
+                        <div class="seccion_titulo">
+                            <div class="seccion_titulo_numeracion"><span>{{ section.order }}</span></div>
+                            <div class="seccion_titulo_descripcion"><h2>{{ section.title_es|safe }}</h2></div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% if sectionElement.show_title %}
+                        <div class="sec_eld_articulo_titulo">
+                            <h3>{{ sectionElement.title_es|safe }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="sec_eld_articulo_cuerpo">{{ sectionElement.description_es|safe }}</div>
+                    </div>
+                </div>
+                {% elif sectionElement.elementType == "graphicArticle" %}
+                <div class="seccion_elemento seccion_elemento_descripcion_graphic">
+                    <div class="sec_eld_graphic_texto">
+                        {% if forloop.counter == 1 %}
+                        {% if section.show_title %}
+                        <div class="seccion_titulo">
+                            <div class="seccion_titulo_numeracion"><span>{{ section.order }}</span></div>
+                            <div class="seccion_titulo_descripcion"><h2>{{ section.title_es|safe }}</h2></div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% if sectionElement.show_title %}
+                        <div class="sec_eld_graphic_titulo">
+                            <h3>{{ sectionElement.title_es|safe }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="sec_eld_graphic_cuerpo">
+                            {% if sectionElement.el_media_type == "imageStandard" %}
+                            <img class="{{ sectionElement.el_media_largeside }}" src="{{ sectionElement.el_media_url }}" alt=""/>
+                            {% elif sectionElement.el_media_type == "imageSvg" %}
+                            <!-- <iframe class="includefile" onload="svgGraphic(this)" src="{{ sectionElement.el_media_url }}"></iframe> -->
+                            <object data="{{ sectionElement.el_media_url }}" onload="svgGraphic(this)" type="image/svg+xml"></object>
+                            {% elif sectionElement.el_media_type == "videoWeb" %}
+                            <div class="contenedor_video">
+                                <iframe width="560" height="315" src="{{ sectionElement.el_media_url }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="true"></iframe>
+                            </div>
+                            {% elif sectionElement.el_media_type == "videoServer" %}
+                            <div class="contenedor_video">
+                                <video id="{{ sectionElement.el_media_id }}" controls muted loop>
+                                    <source src="{{ sectionElement.el_media_url }}" type="video/mp4">    
+                                </video>
+                                <div class="video_controles">
+                                    <div class="video_control video_control_play">
+                                        <svg class="svg_control_video">
+                                            <polyline points="0 0, 16 8, 0 16, 0 0"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div class="video_control video_control_pause">
+                                        <svg class="svg_control_video">
+                                            <polyline points="4 0, 4 16"></polyline>
+                                            <polyline points="12 0, 12 16"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div class="video_control video_control_progress">
+                                        <div class="progress_box">
+                                            <div class="play_progress_bar"></div>
+                                        </div>
+                                    </div>
+                                    <div class="video_control video_control_sound">
+                                        <svg class="svg_control_video">
+                                            <polyline points="0 6, 3 6, 9 0, 9 16, 3 9, 0 9, 0 6"></polyline>
+                                            <path d="M 13 4 C 13 4 16 8 13 12"/>
+                                        </svg>
+                                    </div>
+                                    <div class="video_control video_control_muted">
+                                        <svg class="svg_control_video">
+                                            <polyline points="0 6, 3 6, 9 0, 9 16, 3 9, 0 9, 0 6"></polyline>
+                                            <line x1="12" y1="4" x2="16" y2="12"/>
+                                            <line x1="12" y1="12" x2="16" y2="4"/>
+                                        </svg>
+                                    </div>
+                                    <div class="video_control video_control_fullScreenOff">
+                                        <svg class="svg_control_video">
+                                            <path d="M 6 4 L 6 4 10 4 C 10 4 11 4.5 12 6 L 12 6 12 10 C 12 10 11 11.5 10 12 L 10 12 6 12 C 6 12 5 11.5 4 10 L 4 10 4 6 C 4 6 5 4.5 6 4"/>
+                                        </svg>
+                                    </div>
+                                     <div class="video_control video_control_fullScreenOn">
+                                        <svg class="svg_control_video">
+                                            <path d="M 4 0 L 4 0 12 0 C 12 0 15 1 16 4 L 16 4 16 12 C 16 12 15 15 12 16 L 12 16 4 16 C 4 16 1 15 0 12 L 0 12 0 4 C 0 4 1 1 4 0"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>                        
+                    </div>
+                </div>
+                {% elif sectionElement.elementType == "htmlArticle" %}
+                <div class="seccion_elemento seccion_elemento_descripcion_htmlarticle">
+                    <div class="sec_eld_htmlarticle_texto">
+                        {% if forloop.counter == 1 %}
+                        {% if section.show_title %}
+                        <div class="seccion_titulo">
+                            <div class="seccion_titulo_numeracion"><span>{{ section.order }}</span></div>
+                            <div class="seccion_titulo_descripcion"><h2>{{ section.title_es|safe }}</h2></div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% if sectionElement.show_title %}
+                        <div class="sec_eld_htmlarticle_titulo">
+                            <h3>{{ sectionElement.title_es|safe }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="sec_eld_htmlarticle_cuerpo">
+                            <!-- <iframe class="insertfile" scrolling="no" src="{{ sectionElement.el_file_html_url }}"></iframe> -->
+                            <object class="insertfile" type="text/html" data="{{ sectionElement.el_file_html_url }}" onload="insertFile(this)">
+                            </object>
+                        </div>
+                    </div>
+                </div>
+                {% elif sectionElement.elementType == "slider" %}
+                {% if sectionElement.sliderSize == "fullscreen" %}
+                <div class="seccion_elemento seccion_elemento_descripcion_slider_100vw">
+                    <div class="sec_eld_slider_cuerpo">
+                    {% if sectionElement.transitionType == "automatic" %}
+                        <ul class="ul_slider_automatico_nivel1">
+                    {% else %}
+                        <ul class="ul_slider_interactivo_nivel1">
+                    {% endif %}
+                    {% for slide in sectionElement.sliderElements %}
+                            <li class="li_articuloSlider_nivel1 li_child_{{ forloop.counter }}">
+                                {% if slide.slel_medias %}
+                                <div class="div_fondo_base_seccion"></div>
+                                {% endif %}
+                                {% if slide.slel_media_display_type == "simple" %}
+                                {% for media in slide.slel_medias %}
+                                    {% if media.slel_media_type == "imageStandard" %}
+                                    <img src="{{ media.slel_media_url }}" alt=""/>
+                                    {% elif media.slel_media_type == "imageSvg" %}
+                                    <object data="{{ media.slel_media_url }}" type="image/svg+xml">
+                                    </object>
+                                    {% endif %}
+                                {% endfor %}
+                                {% elif slide.slel_media_display_type == "multiple" %}
+                                <div class="seccion_elemento_descripcion_slider_Xvw">
+                                    <div class="sec_eld_slider_cuerpo">
+                                        <ul class="ul_slider_automatico_nivel2">
+                                        {% for media in slide.slel_medias %}
+                                            <li class="li_articuloSlider_nivel2">
+                                                {% if media.slel_media_type == "imageStandard" %}
+                                                <img src="{{ media.slel_media_url }}" alt=""/>
+                                                {% elif media.slel_media_type == "imageSvg" %}
+                                                <object data="{{ media.slel_media_url }}" type="image/svg+xml">
+                                                </object>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if slide.slel_medias %}
+                                <div class="div_sombra_radial_seccion"></div>
+                                {% endif %}
+                                <div class="li_slide_caja_distribucion">
+                                    <div class="display_area_box" data-sectionorder="{{section.order}}">
+                                        <div class="li_articuloSlider_descripcion display_area_element">
+                                            {% if section.show_title and forloop.counter == 1 %}
+                                            <div class="seccion_titulo">
+                                                <div class="seccion_titulo_numeracion"><span>{{ section.order }}</span></div>
+                                                <div class="seccion_titulo_descripcion"><h2>{{ section.title_es|safe }}</h2></div>
+                                            </div>
+                                            {% endif %}
+                                            {% if slide.slel_show_title %}
+                                            <div class="li_articuloSlider_descripcion_titulo"><h3>{{ slide.slel_title_es|safe }}</h3></div>
+                                            {% endif %}
+                                            <div class="li_articuloSlider_descripcion_cuerpo">{{ slide.slel_description_es|safe }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                    {% endfor %}
+                        </ul>
+                    {% if sectionElement.transitionType == "automatic" %}
+                        <div class="slider_automatico_paginacion_nro">
+                    {% else %}
+                        <div class="slider_navegador">
+                            <div class="slider_prev_button">
+                                <svg class="svg_nav_slider">
+                                    <polyline points="0 8, 16 0, 16 16, 0 8"></polyline>
+                                </svg>
+                            </div>
+                            <div class="slider_next_button">
+                                <svg class="svg_nav_slider">
+                                    <polyline points="0 0, 16 8, 0 16, 0 0"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="slider_interactivo_paginacion_nro">
+                    {% endif %}
+                            <div class="slider_paginacion_orden">
+                                <div class="ul_slider_paginacion_orden">
+                                    {% for count in sectionElement.sliderElements %}
+                                    <div class="li_slider_paginacion_orden">
+                                        <span>{{ forloop.counter }}</span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="slider_paginacion_linea">
+                                <div class="slider_paginacion_linea_track">
+                                    <div class="slider_paginacion_linea_animada"></div>
+                                </div>
+                            </div>
+                            <div class="slider_paginacion_total">
+                                <span>{{ sectionElement.sliderElements|length }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if sectionElement.display_sliderList %}
+                <div class="aside-slider-menu">
+                    <input type="checkbox" id="checkbox-slider-menu-{{section.order}}" name="" class="checkbox-slider-menu">
+                    <label id="slider-menu-icon-{{section.order}}" data-slidermenuid="{{section.order}}" class="slider-menu-icon" type="button" for="checkbox-slider-menu-{{section.order}}">
+                        <div class="menu-icon">
+                            <div class="menu-icon-loaded"></div>
+                            <span class="bar-icon-1"></span>
+                            <span class="bar-icon-2"></span>
+                            <span class="bar-icon-3"></span>
+                        </div>
+                    </label>
+                    <div id="slider-menu-background-{{section.order}}" class="slider-menu-background"></div>
+                    <div id="slider-menu-list-{{section.order}}" class="slider-menu-list">
+                        <div class="menu-list-container">
+                            <div class="row-grid">
+                                {% for slide in sectionElement.sliderElements %}
+                                <div class="col-grid">
+                                    <article>
+                                        <a data-slideindex="{{ forloop.counter }}" data-sectionorder="{{section.order}}" class="article-link" href="#">
+                                            <div class="article-media">
+                                                <img src="{{ slide.slel_list_icon_url }}" alt="">
+                                            </div>
+                                            <div class="article-title">
+                                                <span>{{ slide.slel_title_es }}</span>
+                                            </div>
+                                        </a>
+                                    </article>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="seccion_elemento seccion_elemento_descripcion_slider_Xvw">
+                    <div class="sec_eld_slider_texto">
+                        {% if sectionElement.show_title %}
+                        <div class="sec_eld_slider_titulo">
+                            <h3>{{ sectionElement.title_es|safe }}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="sec_eld_slider_cuerpo">
+                            <ul class="ul_slider_automatico_nivel1">
+                            {% for slide in sectionElement.sliderElements %}
+                                <li class="li_articuloSlider_nivel1 li_child_{{ forloop.counter }}">
+                                {% for media in slide.slel_medias %}
+                                    <div class="div_fondo_inicial_imagen_slider"></div>
+                                    {% if media.slel_media_type == "imageStandard" %}
+                                    <img src="{{ media.slel_media_url }}" alt=""/>
+                                    {% elif media.slel_media_type == "imageSvg" %}
+                                    <object data="{{ media.slel_media_url }}" type="image/svg+xml">
+                                    </object>
+                                    {% endif %}
+                                    <div class="div_sombra_radial_slider"></div>
+                                {% endfor %}
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% elif sectionElement.elementType == "outstanding" %}
+                <div class="seccion_elemento seccion_elemento_descripcion_slider_100vw">
+                    <div class="sec_eld_slider_cuerpo">
+                        <ul class="ul_slider_interactivo_nivel1">
+                            {% for article in sectionElement.outstandingArticles %}
+                            <li class="li_articuloSlider_nivel1 li_child_{{ forloop.counter }}">
+                                <div class="li_slide_caja_distribucion">
+                                    {% if article.outs_article_origin == "web" %}
+                                    <div class="li_articuloSlider_post_web">
+                                        {% if section.show_title and forloop.counter == 1 %}
+                                        <div class="seccion_titulo">
+                                            <div class="seccion_titulo_numeracion"><span>{{ section.order }}</span></div>
+                                            <div class="seccion_titulo_descripcion"><h2>{{ section.title_es|safe }}</h2></div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="articulo_post_info">
+                                            <div class="articulo_post_title">
+                                                <h3>{{ article.outs_title_es|safe }}</h3>
+                                            </div>
+                                            <div class="articulo_post_description info_item">
+                                                {{ article.outs_description_es|safe}}
+                                            </div>
+                                            <div class="articulo_post_link info_item">
+                                                <a class="link-button" href="{{ article.outs_source_web }}" target="_blank">Leer más</a>
+                                            </div>
+                                        </div>
+                                        <div class="articulo_post_author">
+                                            <div class="author_photo">
+                                                <img src="{{article.outs_author_media_url}}" alt=""/>
+                                            </div>
+                                            <div class="author_nombre info_item">{{article.outs_author_name|safe}}</div>
+                                            <div class="author_profession info_item">{{article.outs_author_profession_es|safe}}</div>
+                                            <div class="author_country info_item">{{article.outs_author_country_es|safe}}</div>
+                                        </div>
+                                    </div>
+                                    {% elif article.outs_article_origin == "local" %}
+                                    <div class="li_articuloSlider_post_local">
+                                        {% if section.show_title and forloop.counter == 1 %}
+                                        <div class="seccion_titulo">
+                                            <div class="seccion_titulo_numeracion"><span>{{ section.order }}</span></div>
+                                            <div class="seccion_titulo_descripcion"><h2>{{ section.title_es|safe }}</h2></div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="articulo_post_title info_item">
+                                            <h3>{{ article.outs_title_es|safe }}</h3>
+                                        </div>
+                                        <div class="articulo_post_date info_item">
+                                            {{ article.outs_created }}
+                                        </div>
+                                        <div class="articulo_post_description info_item">
+                                            {{ article.outs_description_es|safe }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="slider_navegador">
+                            <div class="slider_prev_button">
+                                <svg class="svg_nav_slider">
+                                    <polyline points="0 8, 16 0, 16 16, 0 8"></polyline>
+                                </svg>
+                            </div>
+                            <div class="slider_next_button">
+                                <svg class="svg_nav_slider">
+                                    <polyline points="0 0, 16 8, 0 16, 0 0"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="slider_interactivo_paginacion_nro">
+                            <div class="slider_paginacion_orden">
+                                <div class="ul_slider_paginacion_orden">
+                                    {% for count in sectionElement.outstandingArticles %}
+                                    <div class="li_slider_paginacion_orden">
+                                        <span>{{ forloop.counter }}</span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="slider_paginacion_linea">
+                                <div class="slider_paginacion_linea_track">
+                                    <div class="slider_paginacion_linea_animada"></div>
+                                </div>
+                            </div>
+                            <div class="slider_paginacion_total">
+                                <span>{{ sectionElement.outstandingArticles|length }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="aside-slider-menu">
+                    <input type="checkbox" id="checkbox-slider-menu-{{section.order}}" name="" class="checkbox-slider-menu">
+                    <label id="slider-menu-icon-{{section.order}}" data-slidermenuid="{{section.order}}" class="slider-menu-icon" type="button" for="checkbox-slider-menu-{{section.order}}">
+                        <div class="menu-icon">
+                            <div class="menu-icon-loaded"></div>
+                            <span class="bar-icon-1"></span>
+                            <span class="bar-icon-2"></span>
+                            <span class="bar-icon-3"></span>
+                        </div>
+                    </label>
+                    <div id="slider-menu-background-{{section.order}}" class="slider-menu-background"></div>
+                    <div id="slider-menu-list-{{section.order}}" class="slider-menu-list">
+                        <div class="menu-list-container">
+                            <div class="row-grid">
+                                {% for article in sectionElement.outstandingArticles %}
+                                <div class="col-grid">
+                                    <article>
+                                        <a data-slideindex="{{ forloop.counter }}" data-sectionorder="{{section.order}}" class="article-link" href="#">
+                                            <div class="article-media">
+                                                {% if article.outs_media_type == "imageStandard" %}
+                                                <img src="{{ article.outs_media_url }}" alt="">
+                                                {% elif article.outs_media_type == "videoServer" %}
+                                                <div class="media-delimitator">
+                                                    <div class="media-container">
+                                                        <video controls>
+                                                            <source src="{{article.outs_media_url}}" type="video/mp4">
+                                                        </video>
+                                                    </div>
+                                                </div>
+                                                {% elif article.outs_media_type == "videoWeb" %}
+                                                <div class="media-delimitator">
+                                                    <div class="media-container">
+                                                        <iframe src="{{article.outs_media_url}}"></iframe>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="article-title">
+                                                <span>{{ article.outs_title_es }}</span>
+                                            </div>
+                                        </a>
+                                    </article>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% if section.numberElements > 1 %}
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endfor %}
+
+{% if finalPageSections|length > 1 %}
+<div class="aside_lista_secciones">
+    <div class="barra_nav_secciones"></div>
+    <ul class="ul_nav_secciones">
+        {% for section in finalPageSections %}
+        <li class="li_nav_secciones li_nav_secciones_{{ section.order }}">
+            <a class="nav_secciones_fuente nav_secciones_fuente_{{ section.order }}" id="{{ section.order }}">
+                <span class="nav_secciones_nombre">{{ section.title_es|safe }}</span>
+                <span class="nav_secciones_numero">{{ section.order }}</span>
+            </a>
+            <span class="nav_secciones_barra nav_secciones_barra_{{ section.order }}"></span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

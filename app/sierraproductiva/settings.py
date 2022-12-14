@@ -46,6 +46,7 @@ BASE_APPS = [
 ]
 
 LOCAL_APPS = [
+    'appDisplayWSSP',
     'appManageWSSP',
 ]
 
@@ -189,10 +190,10 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_SERVER = os.environ.get('EMAIL_HOST_SERVER')
-EMAIL_PORT_SERVER = os.environ.get('EMAIL_PORT_SERVER')
-EMAIL_SENDER_USER = os.environ.get('EMAIL_SENDER_USER')
-EMAIL_SENDER_PASSWORD = os.environ.get('EMAIL_SENDER_PASSWORD')
+EMAIL_HOST = os.environ.get('EMAIL_HOST_SERVER')
+EMAIL_PORT = os.environ.get('EMAIL_PORT_SERVER')
+EMAIL_HOST_USER = os.environ.get('EMAIL_SENDER_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_SENDER_PASSWORD')
 EMAIL_RECEIVER_USER = os.environ.get('EMAIL_RECEIVER_USER')
-EMAIL_USE_TLS: os.environ.get('EMAIL_USE_TLS')
-EMAIL_USE_SSL: os.environ.get('EMAIL_USE_SSL')
+EMAIL_USE_TLS = bool(int(os.environ.get('EMAIL_USE_TLS', 1)))
+EMAIL_USE_SSL = bool(int(os.environ.get('EMAIL_USE_SSL', 0)))

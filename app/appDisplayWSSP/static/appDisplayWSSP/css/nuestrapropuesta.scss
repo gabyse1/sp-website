@@ -1,0 +1,202 @@
+/* ----- POSICIONAR ELEMENTOS DE DESCRIPCION ----- */
+
+@media only screen and (min-width: 0px){
+    #seccion_3 {
+        .li_articuloSlider_descripcion {
+            .div_tabla {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: flex-start;
+                margin: auto;
+            }
+            
+            .div_tabla_fila {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+            
+            .div_tabla_columna {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 5px 2px;
+            }
+            
+            .div_tabla_imagen {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+		//margin-right: 5px;
+            }
+            
+            .div_tabla_imagen img {
+                width: 30px !important;
+                height: auto !important;
+                margin-right: 5px;
+            }
+            
+            .div_tabla_texto,
+            .div_tabla_texto h3 {
+                font-size: 0.7em;
+                line-height: 1.2em;
+            }
+            
+            .div_tabla_texto h3::after {
+                display: none;
+            }
+            
+            .div_tabla_texto ul {
+                width: 100%;
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+            
+            .div_tabla_texto ul li {
+                width: 100%;
+                padding-left: 10px;
+                position: relative;
+            }
+            
+            .div_tabla_texto ul li::before {
+                top: 4px;
+            }
+            
+            .div_tabla_texto_sinsp {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    #seccion_1 {
+        .li_articuloSlider_descripcion {
+            left: 10%;
+            bottom: 50%;
+        }
+    }
+
+    #seccion_3 {
+        .li_articuloSlider_descripcion {
+            max-width: 70%;
+            background: transparent;
+            left: 10%;
+            bottom: 15%;
+
+            .div_tabla_imagen img {
+                width: 60px !important;
+            }
+        
+            .div_tabla_texto {
+                font-size: 0.9em;
+            }
+        
+            .div_tabla_texto h3 {
+                font-size: 0.8em;
+            }
+        
+            .div_tabla_texto ul li::before {
+                top: 8px;
+            }
+        }
+    }
+
+    #seccion_4 {
+        .li_articuloSlider_descripcion {
+            left: 40%;
+            bottom: 10%;
+        }
+    }
+
+    #seccion_5 {
+        .li_articuloSlider_descripcion {
+            left: 10%;
+            bottom: 15%;
+        }
+    }
+
+    #seccion_6 {
+        .li_articuloSlider_descripcion {
+            left: 30%;
+            bottom: 15%;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #seccion_1 {
+        .li_articuloSlider_descripcion {
+            left: 10%;
+            bottom: 30%;
+        }
+    }
+
+    #seccion_2 {
+        .seccion_elemento_descripcion_articulo {
+            left: 50%;
+            bottom: 30%;
+        }
+
+        .seccion_elemento_descripcion_htmlarticle {
+            left: 15%;
+            bottom: 10%;
+        }
+    }
+
+    #seccion_3 {
+        .li_articuloSlider_descripcion {
+            max-width: 75%;
+            left: 10%;
+            bottom: 15%;
+
+            .div_tabla {
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+
+            .div_tabla_fila {
+                width: 100%;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+        }
+    }
+
+    #seccion_4 {
+        .seccion_elemento_descripcion_articulo {
+            left: 50%;
+            bottom: 35%;
+        }
+
+        .seccion_elemento_descripcion_htmlarticle {
+            left: 15%;
+            bottom: 10%;
+        }
+    }
+
+    #seccion_5 {
+        .li_articuloSlider_descripcion {
+            left: 10%;
+            bottom: 15%;
+        }
+    }
+
+    #seccion_6 {
+        .li_articuloSlider_descripcion {
+            left: 50%;
+            bottom: 15%;
+        }
+    }
+}

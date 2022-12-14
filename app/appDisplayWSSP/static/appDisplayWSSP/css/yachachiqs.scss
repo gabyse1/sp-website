@@ -1,0 +1,33 @@
+/* ----- POSICIONAR ELEMENTOS DE DESCRIPCION ----- */
+
+@media only screen and (min-width: 768px) {
+    #seccion_1 {
+        .seccion_elemento_descripcion_articulo {
+            left: 30%;
+            bottom: 20%;
+        }
+    }
+
+    #seccion_2 {
+        .seccion_elemento_descripcion_articulo {
+            left: 10%;
+            bottom: 20%;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #seccion_1 {
+        .seccion_elemento_descripcion_articulo {
+            left: 50%;
+            bottom: 15%;
+        }
+    }
+
+    #seccion_2 {
+        .seccion_elemento_descripcion_articulo {
+            left: 15%;
+            bottom: 15%;
+        }
+    }
+}

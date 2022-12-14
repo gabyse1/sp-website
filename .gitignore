@@ -128,4 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-/data
+/app/insert_data
+/media1
+/db_data
+/db_media
+dump_*
