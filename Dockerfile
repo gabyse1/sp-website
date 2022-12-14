@@ -1,4 +1,4 @@
-FROM python:3.9-alpine3.13
+FROM python:3.9-alpine3.17
 LABEL maintainer="Gabriela Sánchez Espirilla"
 
 ENV PYTHONUNBUFFERED 1
@@ -21,6 +21,8 @@ RUN python -m venv /py && \
     mkdir -p /vol/web/media && \
     chown -R app:app /vol && \
     chmod -R 755 /vol
+
+COPY ./media1 /vol/web/media
 
 ENV PATH="/py/bin:$PATH"
 
