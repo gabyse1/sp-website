@@ -2863,29 +2863,33 @@ def add_contact_js(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             try:
-                # save file in database
-                contact = form.save(commit=False)
-                contact.save()
-                # creating a message (headers and text)
-                header = 'From: {}\r\nTo: {}\r\nSubject: [IAA] - Contacto desde sitio web\r\n\r\n'.format(settings.EMAIL_SENDER_USER, settings.EMAIL_RECEIVER_USER)
+                # creating a message (headers and body)
+                header = 'From: {}\r\nTo: {}\r\nSubject: [IAA] - Contacto desde sitio web\r\n\r\n'.format(settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVER_USER)
                 msg = header + """\
                 Mensaje recibido desde el sitio web de Sierra Productiva.
                 Se sugiere dar respuesta a este contacto cuyo email se encuentra listado lineas abajo.\n
                     Name:  {}
                     Email: {}
-                    Mpvil: {}
-                    Pais:  {}
+                    Móvil: {}
+                    País:  {}
                     Mensaje:\n
                     {}""".format(str(form.cleaned_data["name"]), str(form.cleaned_data["email"]), str(form.cleaned_data["telephone"]), str(form.cleaned_data["country"]), str(form.cleaned_data["message"]))
-                print(msg)
+
+                # Create a secure SSL context
                 context = ssl.create_default_context()
-                with smtplib.SMTP_SSL(settings.EMAIL_HOST_SERVER, settings.EMAIL_PORT_SERVER, context=context) as server:
-                    server.login(settings.EMAIL_SENDER_USER, settings.EMAIL_SENDER_PASSWORD)
-                    server.sendmail(settings.EMAIL_SENDER_USER, settings.EMAIL_RECEIVER_USER, msg)
+
+                with smtplib.SMTP_SSL(settings.EMAIL_HOST, settings.EMAIL_PORT, context=context) as server:
+                    server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+                    server.sendmail(settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVER_USER, msg.encode('utf-8'))
+
+                # save file in database
+                contact = form.save(commit=False)
+                contact.save()
+
                 # return successful answer
                 return JsonResponse({"success": {"es":"Mensaje enviado satisfactoriamente", "en":"Message sent successfully."}})
             except Exception as error:
-                return JsonResponse({"form_errors":{"all": {"es":"Error de envío. Por favor, intente nuevamente.", "en":"Email couldn't be sent. Please try again."}}}, status=400) 
+              return JsonResponse({"form_errors":{"all": {"es":"Error de envío. Por favor, intente nuevamente.", "en":"Email couldn't be sent. Please try again."}}}, status=400) 
         else:
             return JsonResponse({"form_errors": form.errors}, status=400)
     else:
