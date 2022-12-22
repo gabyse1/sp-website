@@ -129,7 +129,9 @@ dmypy.json
 .pyre/
 
 /app/insert_data
-/media1
-/db_data
-/db_media
+/base-media
+/postgres-data
+/static-files
+/media-files
+/static-data
 dump_*
