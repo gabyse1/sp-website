@@ -467,24 +467,24 @@ body {
 }
 
 .div-horizontal-icon-list {
-    width: 100%;
-    @extend %display-hstart-vcenter;
+  width: 100%;
+  @extend %display-hstart-vcenter;
 
-    .link-icon-item {
-	width: auto;
-	@extend %display-hcenter-vcenter;
-	padding: 0.5rem;
-	margin: 1rem;
-	border: 1px solid rgba(16, 220, 178, 0.3);
-	border-radius: 50%; 
-        background-color: rgba(16, 220, 178, 0.1);
-	cursor: pointer;
-	transition: background-color 250ms linear;
-    }
+  .link-icon-item {
+    width: auto;
+    @extend %display-hcenter-vcenter;
+    padding: 0.5rem;
+    margin: 1rem;
+    border: 1px solid rgba(16, 220, 178, 0.3);
+    border-radius: 50%; 
+    background-color: rgba(16, 220, 178, 0);
+    cursor: pointer;
+    transition: background-color 250ms linear;
+  }
 
-    .link-icon-item:hover {
-       background-color: rgba(16, 220, 178, 0.3);
-    }
+  .link-icon-item:hover {
+      background-color: rgba(16, 220, 178, 0.2);
+  }
 }
 
 .head-container {
