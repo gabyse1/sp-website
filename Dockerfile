@@ -35,7 +35,7 @@ RUN python -m venv /py && \
     chmod -R 755 /vol && \
     chmod -R +x /scripts
 
-COPY ./base-media /base-media
+COPY --chown=$APP_USER:$APP_GROUP ./base-media/* /vol/web/media/
 
 # ENV PATH="/py/bin:$PATH"
 ENV PATH="/scripts:/py/bin:$PATH"
