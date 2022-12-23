@@ -9,8 +9,8 @@
     }
 
     #seccion_1 .li_articuloSlider_descripcion {
-        width: 60%;
-        max-width: 60% !important;
+        width: 70%;
+        max-width: 70% !important;
         background-color: transparent;
         background: transparent;
         left: 10%;
@@ -28,4 +28,13 @@
         font-weight: 400;
         color: rgba(255,255,255,1);
     }
+}
+
+@media only screen and (min-width: 600px) {
+  #body-container[data-pageorder='1'] {
+    #seccion_1 .li_articuloSlider_descripcion {
+        width: 60%;
+        max-width: 60% !important;
+    }
+  }
 }
