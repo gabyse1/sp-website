@@ -31,6 +31,8 @@ Sierra Productiva is a website whose main goal is to convey the importance of a 
 
 - Python
 - Django
+- JavaScript
+- SCSS
 - Postgresql
 - Docker
 
