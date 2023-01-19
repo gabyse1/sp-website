@@ -19,3 +19,8 @@ static-data/
 postgres-data/
 app/insert_data
 dump_*
+
+# Git data
+LICENCE
+README.md
+sp-website-screenshot*
