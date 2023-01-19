@@ -56,6 +56,7 @@ To get a local copy up and running follow these simple example steps.
 ### Usage
 
 - Run the command `docker compose up -d` to run the project.
+- Restore the database backup.
 - Open the url `http://127.0.0.1` on a browser to visualize the oficial website.
 - Open the url `http://127.0.0.1/manage/index` on a browser to access to the content management.
 
