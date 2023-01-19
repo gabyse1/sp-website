@@ -3,8 +3,8 @@ Sierra Productiva is a website whose main goal is to convey the importance of a 
 
 ![screenshot-desktop](sp-website-screenshot-desktop-1200x627.png)
 ![screenshot-mobile](sp-website-screenshot-mobile-375x667.png)
-![screenshot-admin-pages](sp-website-screenshot-admin-pages-screenshot-1200x627.png)
-![screenshot-admin-sections](sp-website-screenshot-admin-sections-screenshot-1200x627.png)
+![screenshot-admin-pages](sp-website-screenshot-admin-pages-1200x627.png)
+![screenshot-admin-sections](sp-website-screenshot-admin-sections-1200x627.png)
 
 
 ## Features
@@ -24,7 +24,7 @@ Sierra Productiva is a website whose main goal is to convey the importance of a 
 
 ## Live demo
 
-[http://ec2-18-144-43-174.us-west-1.compute.amazonaws.com/](http://ec2-18-144-43-174.us-west-1.compute.amazonaws.com/)
+[http://ec2-54-215-242-62.us-west-1.compute.amazonaws.com/](http://ec2-54-215-242-62.us-west-1.compute.amazonaws.com/)
 
 
 ## Built With
@@ -51,7 +51,7 @@ To get a local copy up and running follow these simple example steps.
 
 - Run the commant `git clone git@github.com:gabyse1/sp-website.git` or `git clone https://github.com/gabyse1/sp-website.git` to clone this repository to your local computer. Choose the location you prefer.
 - Run the command `docker compose build` to build the project image and install all the project's dependencies.
-- 
+
 
 ### Usage
 
