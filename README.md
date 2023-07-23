@@ -24,7 +24,7 @@ Sierra Productiva is a website whose main goal is to convey the importance of a 
 
 ## Live demo
 
-[http://ec2-54-183-173-157.us-west-1.compute.amazonaws.com/](http://ec2-54-183-173-157.us-west-1.compute.amazonaws.com/)
+[http://ec2-52-91-164-80.compute-1.amazonaws.com/](http://ec2-52-91-164-80.compute-1.amazonaws.com/)
 
 
 ## Built With
