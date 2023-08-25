@@ -101,9 +101,9 @@ def valid_file_name(value):
         raise ValidationError("File names allow: alphanumeric characters, spaces, single quote, ampersand, hyphens, underscores, and periods.")
 
 def valid_image_file_size(value): # add this to some file where you can import it from
-    limit = 1 * 1024 * 1024
+    limit = 1.5 * 1024 * 1024
     if value.size > limit:
-        raise ValidationError('File too large. Size should not exceed 1 MB.')
+        raise ValidationError('File too large. Size should not exceed 1.5 MB.')
 
 def valid_image_extension(value):
     if (not value.name.endswith('.png') and
@@ -127,9 +127,9 @@ def valid_video_extension(value):
         raise ValidationError("Allowed files: .mp4")
 
 def valid_html_file_size(value):
-    limit = 1.5 * 1024 * 1024
+    limit = 1 * 1024 * 1024
     if value.size > limit:
-        raise ValidationError('File too large. Size should not exceed 1.5 MB.')
+        raise ValidationError('File too large. Size should not exceed 1 MB.')
 
 def valid_html_extension(value):
     if not value.name.endswith('.html'):
