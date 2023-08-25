@@ -127,9 +127,9 @@ def valid_video_extension(value):
         raise ValidationError("Allowed files: .mp4")
 
 def valid_html_file_size(value):
-    limit = 1 * 1024 * 1024
+    limit = 1.5 * 1024 * 1024
     if value.size > limit:
-        raise ValidationError('File too large. Size should not exceed 1 MB.')
+        raise ValidationError('File too large. Size should not exceed 1.5 MB.')
 
 def valid_html_extension(value):
     if not value.name.endswith('.html'):
