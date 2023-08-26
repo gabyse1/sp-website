@@ -32,7 +32,6 @@ def retrieve_pages(request):
     recordlist = Page.objects.all().order_by("display_order")
 
     searchinput = request.GET.get("search")
-    print(searchinput)
 
     if searchinput:
         recordlist = search_records("page", searchinput)
@@ -2546,8 +2545,22 @@ def search_records(model, searchinput, parent=None):
             Q(title_es__icontains=searchinput_escaped) |
             Q(title_en__icontains=searchinput_escaped)
         ).distinct().order_by("display_order")
+    elif model == "elementType":
+        recordlist = ElementType.objects.filter(
+            Q(name__icontains=searchinput_escaped)
+        ).distinct().order_by("name")
     elif model == "element":
         recordlist = parent.section_elements.filter(
+            Q(title_es__icontains=searchinput_escaped) |
+            Q(title_en__icontains=searchinput_escaped)
+        ).distinct().order_by("title_es")
+    elif model == "sliderElement":
+        recordlist = parent.slider_sliderElements.filter(
+            Q(title_es__icontains=searchinput_escaped) |
+            Q(title_en__icontains=searchinput_escaped)
+        ).distinct().order_by("title_es")
+    elif model == "outstandingArticle":
+        recordlist = parent.outstanding_outstandingArticles.filter(
             Q(title_es__icontains=searchinput_escaped) |
             Q(title_en__icontains=searchinput_escaped)
         ).distinct().order_by("title_es")
@@ -2574,20 +2587,30 @@ def search_records(model, searchinput, parent=None):
             Q(email__icontains=searchinput_escaped) |
             Q(message__icontains=searchinput_escaped)
         ).distinct().order_by("-created")
+    elif model == "author":
+        recordlist = Author.objects.filter(
+            Q(name__icontains=searchinput_escaped)
+        ).distinct().order_by("name")
+    elif model == "image":
+        recordlist = Imagen.objects.filter(
+            Q(file_image__icontains=searchinput_escaped)
+        ).distinct().order_by("file_image")
+    elif model == "video":
+        recordlist = Video.objects.filter(
+            Q(title__icontains=searchinput_escaped)
+        ).distinct().order_by("title")
+    elif model == "htmlDesign":
+        recordlist = HtmlDesign.objects.filter(
+            Q(file_html__icontains=searchinput_escaped)
+        ).distinct().order_by("file_html")
     elif model == "styleSheet":
         recordlist = StyleSheet.objects.filter(
             Q(name__icontains=searchinput_escaped)
         ).distinct().order_by("name")
-    elif model == "author":
-        recordlist = Author.objects.filter(
-            Q(name__icontains=searchinput_escaped) |
-            Q(profession__icontains=searchinput_escaped) |
-            Q(work_company__icontains=searchinput_escaped)
-        ).distinct().order_by("name")
     elif model == "user":
         recordlist = User.objects.filter(
             Q(username__icontains=searchinput_escaped) |
-            Q(firs_name__icontains=searchinput_escaped) |
+            Q(first_name__icontains=searchinput_escaped) |
             Q(last_name__icontains=searchinput_escaped)
         ).distinct().order_by("username")
 
@@ -2596,7 +2619,6 @@ def search_records(model, searchinput, parent=None):
 def number_records(recordlist):
     numberingRecordlist = []
     number = 0
-
     for record in recordlist:
         number = number + 1
         record_dict = record.serialize()
